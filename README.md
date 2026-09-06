@@ -15,7 +15,7 @@ Contact CSV Doctor runs locally in a browser and produces a clean import file wi
 - Automatic mapping for common English and Simplified Chinese contact fields
 - Comma, semicolon, and tab delimiter support
 - Exact duplicate merging by normalized email or phone
-- Google Contacts, Outlook Contacts, generic CSV, and Apple/iPhone vCard exports
+- Google Contacts, English Outlook Contacts, generic CSV, and Apple/iPhone vCard exports
 - UTF-8 output for Excel compatibility
 - No installation, account, analytics, uploads, or external libraries
 
@@ -23,7 +23,7 @@ Contact CSV Doctor runs locally in a browser and produces a clean import file wi
 
 Open the free [Lite edition](https://droy37.github.io/contact-csv-doctor/lite/) in your browser to clean and deduplicate up to 25 contacts locally. The repository also includes a synthetic [sample contact file](examples/sample-contacts.csv). No real customer data is used here.
 
-The paid edition removes the row limit and adds dedicated Google Contacts, Outlook Contacts, and Apple/iPhone vCard exports.
+The paid edition removes the row limit and adds dedicated Google Contacts, English Outlook Contacts, and Apple/iPhone vCard exports. Other Outlook interface languages can use generic CSV and map fields in Outlook's import wizard.
 
 ## Get the tool
 

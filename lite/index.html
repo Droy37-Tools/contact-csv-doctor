@@ -35,7 +35,7 @@
         <select id="format">
           <option value="generic">Clean generic CSV</option>
           <option value="google">Google Contacts</option>
-          <option value="outlook">Outlook Contacts</option>
+          <option value="outlook">Outlook Contacts (English)</option>
           <option value="vcard">Apple / iPhone vCard (.vcf)</option>
         </select>
       </label>
@@ -163,7 +163,7 @@ function loadText(text,name){
   catch(e){source=[];refresh();$('status').className='status error';$('status').textContent=e.message}
 }
 function readFile(file){if(!file)return;if(file.size>25*1024*1024){$('status').textContent='For safety, choose a file smaller than 25 MB.';return}const reader=new FileReader();reader.onload=()=>loadText(reader.result,file.name);reader.onerror=()=>{$('status').textContent='The browser could not read that file.'};reader.readAsText(file)}
-if(EDITION==='LITE'){$('format').innerHTML='<option value="generic">Clean generic CSV</option>';document.title='Contact CSV Doctor Lite';document.querySelector('h1').textContent='Contact CSV Doctor Lite';document.querySelector('.lede').textContent='Clean and deduplicate up to 25 contacts locally. The Pro edition adds unlimited rows and Google, Outlook, and Apple export formats.'}
+if(EDITION==='LITE'){$('format').innerHTML='<option value="generic">Clean generic CSV</option>';document.title='Contact CSV Doctor Lite';document.querySelector('h1').textContent='Contact CSV Doctor Lite';document.querySelector('.lede').textContent='Clean and deduplicate up to 25 contacts locally. The Pro edition adds unlimited rows and Google, English Outlook, and Apple export formats.'}
 $('choose').onclick=()=>$('file').click();$('file').onchange=e=>readFile(e.target.files[0]);$('format').onchange=refresh;$('duplicates').onchange=refresh;
 $('sample').onclick=()=>loadText('First Name,Last Name,Email,Mobile,Company\r\n Ana ,Ng,ANA@example.com,"+1 (555) 101-2020",Northstar\r\nAna,Ng,ana@example.com,,\r\n李,明,liming@example.cn,138-0013-8000,晨星','example.csv');
 $('download').onclick=()=>{const vcard=$('format').value==='vcard',blob=new Blob([vcard?buildVCard(result):buildCSV(result,$('format').value)],{type:(vcard?'text/vcard':'text/csv')+';charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=sourceName+(vcard?'-contacts.vcf':'-cleaned.csv');a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
