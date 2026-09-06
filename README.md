@@ -12,10 +12,10 @@ Contact CSV Doctor runs locally in a browser and produces a clean import file wi
 
 ## Features
 
-- Automatic mapping for common contact fields
+- Automatic mapping for common English and Simplified Chinese contact fields
 - Comma, semicolon, and tab delimiter support
 - Exact duplicate merging by normalized email or phone
-- Google Contacts, Outlook Contacts, and generic CSV exports
+- Google Contacts, Outlook Contacts, generic CSV, and Apple/iPhone vCard exports
 - UTF-8 output for Excel compatibility
 - No installation, account, analytics, uploads, or external libraries
 
@@ -36,4 +36,3 @@ The product is a self-contained HTML file. File reading, cleanup, preview, and e
 ## Support
 
 Questions and reproducible bug reports are welcome through GitHub Issues. Do not attach files containing real personal or customer data.
-
