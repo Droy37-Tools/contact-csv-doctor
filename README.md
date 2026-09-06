@@ -21,7 +21,9 @@ Contact CSV Doctor runs locally in a browser and produces a clean import file wi
 
 ## Try the sample
 
-The repository includes a synthetic [sample contact file](examples/sample-contacts.csv). No real customer data is used here.
+Open the free [Lite edition](https://droy37.github.io/contact-csv-doctor/lite/) in your browser to clean and deduplicate up to 25 contacts locally. The repository also includes a synthetic [sample contact file](examples/sample-contacts.csv). No real customer data is used here.
+
+The paid edition removes the row limit and adds dedicated Google Contacts, Outlook Contacts, and Apple/iPhone vCard exports.
 
 ## Get the tool
 
