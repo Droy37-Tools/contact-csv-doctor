@@ -27,9 +27,7 @@ The paid edition removes the row limit and adds dedicated Google Contacts, Engli
 
 ## Get the tool
 
-**The Pro edition is coming soon.**
-
-The Pro download will include the offline tool, sample data, quick-start guide, and a personal/internal-business-use license.
+Get the [Pro edition for $9](https://ko-fi.com/s/b82ea523ce). It removes the row limit and includes the offline tool, sample data, quick-start guide, dedicated export presets, and a personal/internal-business-use license.
 
 ## Privacy
 
