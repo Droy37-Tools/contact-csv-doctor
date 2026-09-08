@@ -7,7 +7,7 @@
   <style>
     :root{color-scheme:dark;--bg:#0b1020;--panel:#131b31;--line:#263352;--text:#edf3ff;--muted:#9aacca;--brand:#75e6b5;--brand2:#65a6ff;--bad:#ff9e9e}
     *{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at 15% 0,#17284a 0,transparent 35%),var(--bg);color:var(--text)}
-    main{max-width:1100px;margin:auto;padding:44px 22px 70px}h1{font-size:clamp(34px,6vw,64px);line-height:1;margin:10px 0 16px;letter-spacing:-.04em}h2{font-size:18px;margin:0 0 14px}.eyebrow,.safe{color:var(--brand);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px}.lede{max-width:720px;color:var(--muted);font-size:18px}
+    main{max-width:1100px;margin:auto;padding:44px 22px 70px}h1{font-size:clamp(34px,6vw,64px);line-height:1;margin:10px 0 16px;letter-spacing:-.04em}h2{font-size:18px;margin:0 0 14px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px}.eyebrow,.safe{color:var(--brand);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px}.lang{color:var(--muted);font-size:13px}.lede{max-width:720px;color:var(--muted);font-size:18px}
     .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:18px;margin-top:30px}.card{background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 16px 50px #0004}.upgrade{display:inline-block;color:#07130e;background:var(--brand);padding:8px 12px;border-radius:9px;text-decoration:none;font-weight:800;margin-top:8px}.drop{min-height:230px;border:2px dashed #466185;border-radius:14px;display:grid;place-items:center;text-align:center;padding:26px;transition:.15s}.drop.over{border-color:var(--brand);background:#75e6b50d}.drop strong{font-size:19px}.drop p{color:var(--muted);margin:7px 0 18px}.controls{display:grid;gap:12px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}label{display:grid;gap:6px;color:var(--muted);font-size:13px;flex:1}select,button{font:inherit;border-radius:10px;border:1px solid var(--line);padding:10px 13px;background:#0d1528;color:var(--text)}button{cursor:pointer;font-weight:700}button.primary{background:linear-gradient(120deg,var(--brand),#67d6f4);border:0;color:#07130e}button:disabled{opacity:.4;cursor:not-allowed}.ghost{background:transparent}input[type=file]{display:none}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:14px}.stat{padding:12px;background:#0d1528;border-radius:11px}.stat b{font-size:22px;display:block}.stat span{font-size:12px;color:var(--muted)}
     .status{min-height:24px;color:var(--muted);margin-top:12px}.status.error{color:var(--bad)}.table-wrap{margin-top:18px;overflow:auto;max-height:430px;border:1px solid var(--line);border-radius:12px}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:9px 11px;text-align:left;white-space:nowrap;border-bottom:1px solid var(--line);max-width:260px;overflow:hidden;text-overflow:ellipsis}th{position:sticky;top:0;background:#18233d;color:#bfd0ee}.empty{color:var(--muted);text-align:center;padding:36px}.note{color:var(--muted);font-size:13px;margin-top:18px}.privacy{display:flex;gap:10px;align-items:flex-start;background:#0b251f;border:1px solid #245e4b;border-radius:12px;padding:13px;margin-bottom:16px}.privacy b{display:block}.privacy span{color:#acd9c8;font-size:13px}
     @media(max-width:780px){.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr 1fr}main{padding-top:26px}}
@@ -15,53 +15,64 @@
 </head>
 <body>
 <main>
-  <div class="eyebrow">Private • Offline • No account</div>
-  <h1>Contact CSV Doctor Lite</h1>
-  <p class="lede">Clean and deduplicate up to 25 contacts locally. The Pro edition adds unlimited rows and Google, English Outlook, and Apple export formats.</p>
-  <a class="upgrade" href="https://ko-fi.com/s/b82ea523ce">Get unlimited Pro — $9</a>
+  <div class="top"><div class="eyebrow" data-i18n="eyebrow">Private • Offline • No account</div><a id="language" class="lang" href="?lang=zh">中文</a></div>
+  <h1 data-i18n="title">Contact CSV Doctor Lite</h1>
+  <p class="lede" data-i18n="lede">Clean and deduplicate up to 25 contacts locally. The Pro edition adds unlimited rows and Google, English Outlook, and Apple export formats.</p>
+  <a class="upgrade" href="https://ko-fi.com/s/b82ea523ce" data-i18n="upgrade">Get unlimited Pro — $9</a>
 
   <div class="grid">
     <section class="card">
-      <div class="privacy"><div>🔒</div><div><b>Your contacts stay on this device.</b><span>This file has no analytics, uploads, network calls, or external libraries.</span></div></div>
+      <div class="privacy"><div>🔒</div><div><b data-i18n="privacyTitle">Your contacts stay on this device.</b><span data-i18n="privacyCopy">This file has no analytics, uploads, network calls, or external libraries.</span></div></div>
       <div id="drop" class="drop">
-        <div><strong>Drop a CSV here</strong><p>UTF-8 CSV, semicolon CSV, and tab-separated files are supported.</p><button id="choose" class="primary">Choose file</button><input id="file" type="file" accept=".csv,.tsv,text/csv,text/tab-separated-values"></div>
+        <div><strong data-i18n="dropTitle">Drop a CSV here</strong><p data-i18n="dropCopy">UTF-8 CSV, semicolon CSV, and tab-separated files are supported.</p><button id="choose" class="primary" data-i18n="choose">Choose file</button><input id="file" type="file" accept=".csv,.tsv,text/csv,text/tab-separated-values"></div>
       </div>
-      <div id="status" class="status">No file loaded.</div>
+      <div id="status" class="status" data-i18n="noFile">No file loaded.</div>
     </section>
 
     <section class="card controls">
-      <h2>Export settings</h2>
-      <label>Destination format
+      <h2 data-i18n="settings">Export settings</h2>
+      <label><span data-i18n="formatLabel">Destination format</span>
         <select id="format">
-          <option value="generic">Clean generic CSV</option>
+          <option value="generic" data-i18n="generic">Clean generic CSV</option>
         </select>
       </label>
-      <label>Duplicate handling
+      <label><span data-i18n="duplicateLabel">Duplicate handling</span>
         <select id="duplicates">
-          <option value="merge">Merge matching email or phone</option>
-          <option value="keep">Keep every row</option>
+          <option value="merge" data-i18n="merge">Merge matching email or phone</option>
+          <option value="keep" data-i18n="keep">Keep every row</option>
         </select>
       </label>
       <div class="row">
-        <button id="sample" class="ghost">Load example</button>
-        <button id="download" class="primary" disabled>Download cleaned CSV</button>
+        <button id="sample" class="ghost" data-i18n="sample">Load example</button>
+        <button id="download" class="primary" disabled data-i18n="download">Download cleaned CSV</button>
       </div>
       <div class="stats">
-        <div class="stat"><b id="rows">0</b><span>source rows</span></div>
-        <div class="stat"><b id="dupes">0</b><span>duplicates merged</span></div>
-        <div class="stat"><b id="issues">0</b><span>rows missing contact info</span></div>
+        <div class="stat"><b id="rows">0</b><span data-i18n="rows">source rows</span></div>
+        <div class="stat"><b id="dupes">0</b><span data-i18n="dupes">duplicates merged</span></div>
+        <div class="stat"><b id="issues">0</b><span data-i18n="issues">rows missing contact info</span></div>
       </div>
-      <p class="note">Automatic cleanup trims whitespace, lowercases email addresses, normalizes phone punctuation, preserves international “+”, and fills empty fields when duplicates are merged.</p>
+      <p class="note" data-i18n="note">Automatic cleanup trims whitespace, lowercases email addresses, normalizes phone punctuation, preserves international “+”, and fills empty fields when duplicates are merged.</p>
     </section>
   </div>
 
   <section class="card" style="margin-top:18px">
-    <h2>Preview</h2>
-    <div id="preview" class="empty">Load a file to preview the first 20 cleaned contacts.</div>
+    <h2 data-i18n="previewTitle">Preview</h2>
+    <div id="preview" class="empty" data-i18n="previewEmpty">Load a file to preview the first 20 cleaned contacts.</div>
   </section>
 </main>
 
 <script>
+const I18N={
+  eyebrow:'隐私处理 • 离线运行 • 无需账号',title:'联系人 CSV 清理工具 Lite',lede:'在本地清理并合并最多 25 位联系人。Pro 版不限行数，并支持 Google、英文 Outlook 和 Apple 通讯录格式。',upgrade:'解锁无限量 Pro — US$9',
+  privacyTitle:'联系人数据只留在这台设备上。',privacyCopy:'本工具不含统计分析、文件上传、网络请求或外部代码库。',dropTitle:'将 CSV 拖到这里',dropCopy:'支持 UTF-8 CSV、分号分隔 CSV 和制表符分隔文件。',choose:'选择文件',noFile:'尚未加载文件。',
+  settings:'导出设置',formatLabel:'目标格式',generic:'清理后的通用 CSV',duplicateLabel:'重复联系人处理',merge:'合并邮箱或电话相同的联系人',keep:'保留每一行',sample:'载入示例',download:'下载清理后的 CSV',
+  rows:'原始行数',dupes:'已合并重复项',issues:'缺少联系方式的行',note:'自动清理会移除多余空格、将邮箱转为小写、规范电话标点、保留国际号码的“+”，并在合并重复联系人时补全空白字段。',previewTitle:'预览',previewEmpty:'载入文件后可预览前 20 位清理后的联系人。'
+};
+const requestedLanguage=new URLSearchParams(location.search).get('lang');
+const zh=requestedLanguage==='zh'||(requestedLanguage!=='en'&&navigator.language.toLowerCase().startsWith('zh'));
+const tr=(en,cn)=>zh?cn:en;
+if(zh){document.documentElement.lang='zh-CN';document.title=I18N.title;document.querySelectorAll('[data-i18n]').forEach(el=>el.textContent=I18N[el.dataset.i18n])}
+const language=document.getElementById('language');language.href=zh?'?lang=en':'?lang=zh';language.textContent=zh?'English':'中文';
 const ALIASES={
   first:['first name','firstname','given name','givenname','first','名'],last:['last name','lastname','family name','surname','last','姓'],
   full:['name','full name','fullname','display name','姓名'],email:['email','email address','e-mail','primary email','email 1 - value','邮箱','电子邮件'],
@@ -91,8 +102,8 @@ function parseCSV(text){
     else cell+=c;
   }
   row.push(cell);if(row.some(x=>x!==''))rows.push(row);
-  if(rows.length<2)throw new Error('The file needs a header row and at least one contact.');
-  const width=rows[0].length;if(width<2)throw new Error('Only one column was detected. Check the file delimiter.');
+  if(rows.length<2)throw new Error(tr('The file needs a header row and at least one contact.','文件需要包含标题行和至少一条联系人记录。'));
+  const width=rows[0].length;if(width<2)throw new Error(tr('Only one column was detected. Check the file delimiter.','只识别到一列，请检查文件的分隔符。'));
   return {headers:rows[0].map(x=>x.trim()),rows:rows.slice(1).map(r=>{while(r.length<width)r.push('');return r.slice(0,width)})};
 }
 function key(s){return String(s||'').toLowerCase().replace(/^\s+|\s+$/g,'').replace(/[_-]+/g,' ').replace(/\s+/g,' ')}
@@ -133,15 +144,15 @@ function refresh(){
   const r=clean(source,$('duplicates').value==='merge');result=r.rows;report=r;
   $('rows').textContent=source.length;$('dupes').textContent=r.duplicates;$('issues').textContent=r.issues;$('download').disabled=!result.length;
   const spec=OUTPUT[$('format').value],view=result.slice(0,20);
-  if(!view.length){$('preview').className='empty';$('preview').textContent='No contacts to preview.';return}
+  if(!view.length){$('preview').className='empty';$('preview').textContent=tr('No contacts to preview.','没有可预览的联系人。');return}
   $('preview').className='table-wrap';$('preview').innerHTML='<table><thead><tr>'+spec.map(x=>'<th>'+escapeHTML(x[0])+'</th>').join('')+'</tr></thead><tbody>'+view.map(row=>'<tr>'+spec.map(([,f])=>'<td title="'+escapeHTML(typeof f==='function'?f(row):row[f])+'">'+escapeHTML(typeof f==='function'?f(row):row[f])+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
 }
 function escapeHTML(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function loadText(text,name){
-  try{const parsed=parseCSV(text),all=canon(parsed);source=applyEditionLimit(all);sourceName=(name||'contacts').replace(/\.[^.]+$/,'');refresh();$('status').className='status';$('status').textContent=`Loaded ${source.length}${all.length>25?' of '+all.length:''} contacts from ${name||'example.csv'}. Nothing was uploaded.`}
+  try{const parsed=parseCSV(text),all=canon(parsed);source=applyEditionLimit(all);sourceName=(name||'contacts').replace(/\.[^.]+$/,'');refresh();$('status').className='status';$('status').textContent=zh?`已从 ${name||'example.csv'} 载入 ${source.length}${all.length>25?' / '+all.length:''} 位联系人，文件未被上传。`:`Loaded ${source.length}${all.length>25?' of '+all.length:''} contacts from ${name||'example.csv'}. Nothing was uploaded.`}
   catch(e){source=[];refresh();$('status').className='status error';$('status').textContent=e.message}
 }
-function readFile(file){if(!file)return;if(file.size>25*1024*1024){$('status').textContent='For safety, choose a file smaller than 25 MB.';return}const reader=new FileReader();reader.onload=()=>loadText(reader.result,file.name);reader.onerror=()=>{$('status').textContent='The browser could not read that file.'};reader.readAsText(file)}
+function readFile(file){if(!file)return;if(file.size>25*1024*1024){$('status').textContent=tr('For safety, choose a file smaller than 25 MB.','为安全起见，请选择小于 25 MB 的文件。');return}const reader=new FileReader();reader.onload=()=>loadText(reader.result,file.name);reader.onerror=()=>{$('status').textContent=tr('The browser could not read that file.','浏览器无法读取该文件。')};reader.readAsText(file)}
 $('choose').onclick=()=>$('file').click();$('file').onchange=e=>readFile(e.target.files[0]);$('format').onchange=refresh;$('duplicates').onchange=refresh;
 $('sample').onclick=()=>loadText('First Name,Last Name,Email,Mobile,Company\r\n Ana ,Ng,ANA@example.com,"+1 (555) 101-2020",Northstar\r\nAna,Ng,ana@example.com,,\r\n李,明,liming@example.cn,138-0013-8000,晨星','example.csv');
 $('download').onclick=()=>{const blob=new Blob([buildCSV(result,'generic')],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=sourceName+'-cleaned.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
