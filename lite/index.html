@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Contact CSV Doctor</title>
+  <title>Contact CSV Doctor Lite</title>
   <style>
     :root{color-scheme:dark;--bg:#0b1020;--panel:#131b31;--line:#263352;--text:#edf3ff;--muted:#9aacca;--brand:#75e6b5;--brand2:#65a6ff;--bad:#ff9e9e}
     *{box-sizing:border-box}body{margin:0;font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif;background:radial-gradient(circle at 15% 0,#17284a 0,transparent 35%),var(--bg);color:var(--text)}
@@ -16,8 +16,8 @@
 <body>
 <main>
   <div class="eyebrow">Private • Offline • No account</div>
-  <h1>Contact CSV Doctor</h1>
-  <p class="lede">Clean, deduplicate, and remap messy contact exports before importing them into Google Contacts, Outlook, or another CRM.</p>
+  <h1>Contact CSV Doctor Lite</h1>
+  <p class="lede">Clean and deduplicate up to 25 contacts locally. The Pro edition adds unlimited rows and Google, English Outlook, and Apple export formats.</p>
   <a class="upgrade" href="https://ko-fi.com/s/b82ea523ce">Get unlimited Pro — $9</a>
 
   <div class="grid">
@@ -34,9 +34,6 @@
       <label>Destination format
         <select id="format">
           <option value="generic">Clean generic CSV</option>
-          <option value="google">Google Contacts</option>
-          <option value="outlook">Outlook Contacts (English)</option>
-          <option value="vcard">Apple / iPhone vCard (.vcf)</option>
         </select>
       </label>
       <label>Duplicate handling
@@ -65,7 +62,6 @@
 </main>
 
 <script>
-const EDITION='LITE';
 const ALIASES={
   first:['first name','firstname','given name','givenname','first','名'],last:['last name','lastname','family name','surname','last','姓'],
   full:['name','full name','fullname','display name','姓名'],email:['email','email address','e-mail','primary email','email 1 - value','邮箱','电子邮件'],
@@ -73,11 +69,8 @@ const ALIASES={
   title:['title','job title','position','职位'],notes:['notes','note','description','备注'],address:['address','street address','address 1 - formatted','地址']
 };
 const OUTPUT={
-  generic:[['First Name','first'],['Last Name','last'],['Full Name','full'],['Email','email'],['Phone','phone'],['Company','company'],['Job Title','title'],['Address','address'],['Notes','notes']],
-  google:[['First Name','first'],['Last Name','last'],['Name','full'],['E-mail 1 - Type',()=> 'Work'],['E-mail 1 - Value','email'],['Phone 1 - Type',()=> 'Mobile'],['Phone 1 - Value','phone'],['Organization Name','company'],['Organization Title','title'],['Address 1 - Formatted','address'],['Notes','notes']],
-  outlook:[['First Name','first'],['Last Name','last'],['Name','full'],['E-mail Address','email'],['Mobile Phone','phone'],['Company','company'],['Job Title','title'],['Business Street','address'],['Notes','notes']]
+  generic:[['First Name','first'],['Last Name','last'],['Full Name','full'],['Email','email'],['Phone','phone'],['Company','company'],['Job Title','title'],['Address','address'],['Notes','notes']]
 };
-OUTPUT.vcard=OUTPUT.generic;
 let source=[],result=[],report={duplicates:0,issues:0},sourceName='contacts';
 const $=id=>document.getElementById(id);
 
@@ -129,44 +122,29 @@ function clean(rows,merge=true){
   }
   return {rows:out,duplicates,issues:out.filter(x=>!x.email&&!x.phone).length};
 }
-function applyEditionLimit(rows){return EDITION==='LITE'?rows.slice(0,25):rows}
+function applyEditionLimit(rows){return rows.slice(0,25)}
 function quote(v){v=String(v??'');return /[",\r\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v}
 function buildCSV(rows,format){
   const spec=OUTPUT[format]||OUTPUT.generic,lines=[spec.map(x=>quote(x[0])).join(',')];
   for(const row of rows)lines.push(spec.map(([,f])=>quote(typeof f==='function'?f(row):row[f])).join(','));
   return '\uFEFF'+lines.join('\r\n');
 }
-function vcardValue(v){return String(v??'').replace(/\\/g,'\\\\').replace(/\r?\n/g,'\\n').replace(/([;,])/g,'\\$1')}
-function buildVCard(rows){
-  return rows.map(row=>{
-    const full=row.full||[row.first,row.last].filter(Boolean).join(' ')||row.email||row.phone||'Unnamed contact';
-    const lines=['BEGIN:VCARD','VERSION:3.0',`N:${vcardValue(row.last)};${vcardValue(row.first)};;;`,`FN:${vcardValue(full)}`];
-    if(row.email)lines.push(`EMAIL;TYPE=INTERNET:${vcardValue(row.email)}`);
-    if(row.phone)lines.push(`TEL;TYPE=CELL:${vcardValue(row.phone)}`);
-    if(row.company)lines.push(`ORG:${vcardValue(row.company)}`);
-    if(row.title)lines.push(`TITLE:${vcardValue(row.title)}`);
-    if(row.address)lines.push(`ADR;TYPE=WORK:;;${vcardValue(row.address)};;;;`);
-    if(row.notes)lines.push(`NOTE:${vcardValue(row.notes)}`);
-    lines.push('END:VCARD');return lines.join('\r\n');
-  }).join('\r\n');
-}
 function refresh(){
   const r=clean(source,$('duplicates').value==='merge');result=r.rows;report=r;
-  $('rows').textContent=source.length;$('dupes').textContent=r.duplicates;$('issues').textContent=r.issues;$('download').disabled=!result.length;$('download').textContent=$('format').value==='vcard'?'Download vCard':'Download cleaned CSV';
+  $('rows').textContent=source.length;$('dupes').textContent=r.duplicates;$('issues').textContent=r.issues;$('download').disabled=!result.length;
   const spec=OUTPUT[$('format').value],view=result.slice(0,20);
   if(!view.length){$('preview').className='empty';$('preview').textContent='No contacts to preview.';return}
   $('preview').className='table-wrap';$('preview').innerHTML='<table><thead><tr>'+spec.map(x=>'<th>'+escapeHTML(x[0])+'</th>').join('')+'</tr></thead><tbody>'+view.map(row=>'<tr>'+spec.map(([,f])=>'<td title="'+escapeHTML(typeof f==='function'?f(row):row[f])+'">'+escapeHTML(typeof f==='function'?f(row):row[f])+'</td>').join('')+'</tr>').join('')+'</tbody></table>';
 }
 function escapeHTML(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function loadText(text,name){
-  try{const parsed=parseCSV(text),all=canon(parsed);source=applyEditionLimit(all);sourceName=(name||'contacts').replace(/\.[^.]+$/,'');refresh();$('status').className='status';$('status').textContent=`Loaded ${source.length}${EDITION==='LITE'&&all.length>25?' of '+all.length:''} contacts from ${name||'example.csv'}. Nothing was uploaded.`}
+  try{const parsed=parseCSV(text),all=canon(parsed);source=applyEditionLimit(all);sourceName=(name||'contacts').replace(/\.[^.]+$/,'');refresh();$('status').className='status';$('status').textContent=`Loaded ${source.length}${all.length>25?' of '+all.length:''} contacts from ${name||'example.csv'}. Nothing was uploaded.`}
   catch(e){source=[];refresh();$('status').className='status error';$('status').textContent=e.message}
 }
 function readFile(file){if(!file)return;if(file.size>25*1024*1024){$('status').textContent='For safety, choose a file smaller than 25 MB.';return}const reader=new FileReader();reader.onload=()=>loadText(reader.result,file.name);reader.onerror=()=>{$('status').textContent='The browser could not read that file.'};reader.readAsText(file)}
-if(EDITION==='LITE'){$('format').innerHTML='<option value="generic">Clean generic CSV</option>';document.title='Contact CSV Doctor Lite';document.querySelector('h1').textContent='Contact CSV Doctor Lite';document.querySelector('.lede').textContent='Clean and deduplicate up to 25 contacts locally. The Pro edition adds unlimited rows and Google, English Outlook, and Apple export formats.'}
 $('choose').onclick=()=>$('file').click();$('file').onchange=e=>readFile(e.target.files[0]);$('format').onchange=refresh;$('duplicates').onchange=refresh;
 $('sample').onclick=()=>loadText('First Name,Last Name,Email,Mobile,Company\r\n Ana ,Ng,ANA@example.com,"+1 (555) 101-2020",Northstar\r\nAna,Ng,ana@example.com,,\r\n李,明,liming@example.cn,138-0013-8000,晨星','example.csv');
-$('download').onclick=()=>{const vcard=$('format').value==='vcard',blob=new Blob([vcard?buildVCard(result):buildCSV(result,$('format').value)],{type:(vcard?'text/vcard':'text/csv')+';charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=sourceName+(vcard?'-contacts.vcf':'-cleaned.csv');a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$('download').onclick=()=>{const blob=new Blob([buildCSV(result,'generic')],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=sourceName+'-cleaned.csv';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 for(const event of ['dragenter','dragover'])$('drop').addEventListener(event,e=>{e.preventDefault();$('drop').classList.add('over')});for(const event of ['dragleave','drop'])$('drop').addEventListener(event,e=>{e.preventDefault();$('drop').classList.remove('over')});$('drop').addEventListener('drop',e=>readFile(e.dataTransfer.files[0]));
 </script>
 </body>
